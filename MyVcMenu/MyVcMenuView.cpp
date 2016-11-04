@@ -26,6 +26,7 @@ BEGIN_MESSAGE_MAP(CMyVcMenuView, CView)
 	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
+	ON_WM_RBUTTONDOWN()
 END_MESSAGE_MAP()
 
 // CMyVcMenuView 构造/析构
@@ -102,3 +103,21 @@ CMyVcMenuDoc* CMyVcMenuView::GetDocument() const // 非调试版本是内联的
 
 
 // CMyVcMenuView 消息处理程序
+
+
+void CMyVcMenuView::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO:  在此添加消息处理程序代码和/或调用默认值
+
+	//此方式，快捷菜单显示位置不对
+	CMenu* menu_bar = AfxGetMainWnd()->GetMenu();
+	CMenu* file_menu = menu_bar->GetSubMenu(0);    
+	ASSERT(file_menu);
+
+	//ClientToScreen(&point);
+	file_menu->TrackPopupMenu(TPM_LEFTALIGN |TPM_RIGHTBUTTON, point.x, 
+	   point.y, this);
+
+
+	CView::OnRButtonDown(nFlags, point);
+}
