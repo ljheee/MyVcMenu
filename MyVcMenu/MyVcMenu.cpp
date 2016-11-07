@@ -153,6 +153,8 @@ protected:
 // 实现
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+//	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
@@ -165,6 +167,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+//	ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP()
 
 // 用于运行对话框的应用程序命令
@@ -175,6 +178,8 @@ void CMyVcMenuApp::OnAppAbout()
 }
 
 // CMyVcMenuApp 消息处理程序
+
+
 
 
 

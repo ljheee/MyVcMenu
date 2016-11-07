@@ -11,6 +11,7 @@
 
 #include "MyVcMenuDoc.h"
 #include "MyVcMenuView.h"
+#include "MainFrm.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -27,6 +28,8 @@ BEGIN_MESSAGE_MAP(CMyVcMenuView, CView)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
 	ON_WM_RBUTTONDOWN()
+	ON_WM_CONTEXTMENU()
+	ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP()
 
 // CMyVcMenuView 构造/析构
@@ -110,6 +113,8 @@ void CMyVcMenuView::OnRButtonDown(UINT nFlags, CPoint point)
 	// TODO:  在此添加消息处理程序代码和/或调用默认值
 
 	//此方式，快捷菜单显示位置不对
+
+	/*
 	CMenu* menu_bar = AfxGetMainWnd()->GetMenu();
 	CMenu* file_menu = menu_bar->GetSubMenu(0);    
 	ASSERT(file_menu);
@@ -118,6 +123,36 @@ void CMyVcMenuView::OnRButtonDown(UINT nFlags, CPoint point)
 	file_menu->TrackPopupMenu(TPM_LEFTALIGN |TPM_RIGHTBUTTON, point.x, 
 	   point.y, this);
 
+	   */
 
 	CView::OnRButtonDown(nFlags, point);
+}
+
+//右键---快捷菜单
+void CMyVcMenuView::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
+{
+	// TODO:  在此处添加消息处理程序代码
+	CMenu* menu_bar = AfxGetMainWnd()->GetMenu();
+	CMenu* file_menu = menu_bar->GetSubMenu(0);
+	ASSERT(file_menu);
+
+	//ClientToScreen(&point);
+	file_menu->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x,
+		point.y, this);
+
+}
+
+//鼠标移动----状态栏显示鼠标位置
+void CMyVcMenuView::OnMouseMove(UINT nFlags, CPoint point)
+{
+	// TODO:  在此添加消息处理程序代码和/或调用默认值
+
+	CMainFrame *mainwnd = (CMainFrame*)AfxGetMainWnd();
+	CStatusBar *statusbar = &mainwnd->m_wndStatusBar;//获取状态栏
+	CString str;
+	str.Format(_T("x=%d,y=%d"), point.x, point.y);
+	statusbar->SetPaneInfo(1, 10000, SBPS_POPOUT | SBARS_TOOLTIPS, 200);
+	statusbar->SetPaneText(1, str);
+
+	CView::OnMouseMove(nFlags, point);
 }
